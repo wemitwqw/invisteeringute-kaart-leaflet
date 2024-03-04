@@ -1,6 +1,6 @@
 import { LatLngExpression } from "leaflet"
 import { useMemo, useState } from "react"
-import { Circle, Tooltip } from "react-leaflet"
+import { Circle, Tooltip, useMapEvents } from "react-leaflet"
 
 export const TooltipCircle = () => {
     let initialPosition: LatLngExpression = {
@@ -32,4 +32,17 @@ export const TooltipCircle = () => {
             <Tooltip>{clickedText}</Tooltip>
           </Circle>
         )
+      }
+
+export const VectorVisibleOnZoom = () => {
+  const [zoomLevel, setZoomLevel] = useState(8); 
+  
+  const mapEvents = useMapEvents({
+    zoomend: () => {
+      setZoomLevel(mapEvents.getZoom());
+      console.log(zoomLevel);
+    },
+  });
+
+  return null;
 }
