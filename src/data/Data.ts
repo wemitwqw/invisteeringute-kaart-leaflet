@@ -1,4 +1,5 @@
 import { Point } from "../types/Point"
+import { Vector } from "../types/Vector"
 
 export let markersInv: Point[] = [
     {
@@ -66,11 +67,15 @@ export let markersHooldus: Point[] = [
     },
   ]
 
-export let markersLaiendamis: Point[] = [
+export let vectorsLaiendamis: Vector[] = [
     {
-      geo: {lat: 59.423098, lng: 24.643760},
+      geo: [
+        {lat: 59.427317, lng: 24.824024},
+        {lat: 59.433679, lng: 24.860114},
+        {lat: 59.438125, lng: 24.856531},
+      ],
       meta: {
-        name: "Inchcape BMW",
+        name: "Tallinn-Narva",
         jobType: "Laiendamistöö",
         startYear: 2024,
         endYear: 2024,
@@ -78,9 +83,13 @@ export let markersLaiendamis: Point[] = [
       }
     },
     {
-      geo: {lat: 59.440433, lng: 24.863192},
+      geo: [
+        {lat: 59.423082, lng: 24.782396},
+        {lat: 59.423055, lng: 24.780694},
+        {lat: 59.420537, lng: 24.770231},
+      ],
       meta: {
-        name: "Lasnamäe Centrum",
+        name: "Järvevana tee",
         jobType: "Laiendamistöö",
         startYear: 2024,
         endYear: 2024,

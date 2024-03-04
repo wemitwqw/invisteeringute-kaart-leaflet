@@ -2,107 +2,53 @@ import './App.css'
 import 'leaflet/dist/leaflet.css';
 
 import { LatLngExpression } from 'leaflet'
-import { AttributionControl, LayersControl, MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
-import MarkerClusterGroup from 'react-leaflet-cluster'
-import { markersHooldus, markersInv, markersLaiendamis } from './data/Data';
-import { greenPin, redPin } from './data/Pins';
+import { AttributionControl, LayersControl, MapContainer, TileLayer, useMapEvents } from 'react-leaflet'
 import MapLegendControl from './Legend';
+import { Invisteeringud } from './components/Invisteeringud';
+import { Hooldus } from './components/Hooldus';
+import { Laiendamis } from './components/Laiendamis';
+import { useState } from 'react';
+// import { TooltipCircle } from './components/Test';
 
 function App() {
+  const [zoomLevel, setZoomLevel] = useState(8); 
 
   let initialPosition: LatLngExpression = {
     lat: 58.5974875, 
     lng: 24.9872555
   }
 
-  // function MapComponent() {
-  //   const map = useMap()
-  //   console.log('map center:', map.getCenter())
-  //   return null
-  // }
+  function MyComponent() {
+    const mapEvents = useMapEvents({
+      zoomend: () => {
+        setZoomLevel(mapEvents.getZoom());
+        console.log(zoomLevel);
+      },
+    });
+
+    return null;
+  }
 
   return (
     <>
-      <MapContainer center={initialPosition} zoom={8} scrollWheelZoom={true} attributionControl={false}>
-        {/* <MapComponent/> */}
+      <MapContainer center={initialPosition} zoom={zoomLevel} scrollWheelZoom={true} attributionControl={false}>
+        <MyComponent/>
 
-        <AttributionControl position='bottomright' prefix={false}/>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <AttributionControl position='bottomright' prefix={false}/>
 
         <LayersControl position="topright">
-          
-          <LayersControl.Overlay checked name="Invisteeringutööd">
-            <MarkerClusterGroup
-              chunkedLoading
-            >
-              {(markersInv).map((marker, index) => (
-                <Marker
-                  key={index}
-                  position={marker.geo}
-                >
-                  <Popup>
-                    <p>Name: {marker.meta.name}</p>
-                    <p>Job Type: {marker.meta.jobType}</p>
-                    <p>Start Year: {marker.meta.startYear}</p>
-                    <p>End Year: {marker.meta.endYear}</p>
-                    <p>Budget: {marker.meta.budget}</p>
-                  </Popup>
-                </Marker>
-              ))}
-            </MarkerClusterGroup>
-          </LayersControl.Overlay>
-          
-          <LayersControl.Overlay checked name={'Hooldustööd'}>
-            <MarkerClusterGroup
-              chunkedLoading
-            >
-              {(markersHooldus).map((marker, index) => (
-                <Marker
-                  key={index}
-                  position={marker.geo}
-                  icon={greenPin}
-                >
-                  <Popup>
-                    <p>Name: {marker.meta.name}</p>
-                    <p>Job Type: {marker.meta.jobType}</p>
-                    <p>Start Year: {marker.meta.startYear}</p>
-                    <p>End Year: {marker.meta.endYear}</p>
-                    <p>Budget: {marker.meta.budget}</p>
-                  </Popup>
-                </Marker>
-              ))}
-            </MarkerClusterGroup>
-          </LayersControl.Overlay>
-
-          <LayersControl.Overlay checked name="Laiendamistööd">
-            <MarkerClusterGroup
-              chunkedLoading
-            >
-              {(markersLaiendamis).map((marker, index) => (
-                <Marker
-                  key={index}
-                  position={marker.geo}
-                  icon={redPin}
-                >
-                  <Popup>
-                    <p>Name: {marker.meta.name}</p>
-                    <p>Job Type: {marker.meta.jobType}</p>
-                    <p>Start Year: {marker.meta.startYear}</p>
-                    <p>End Year: {marker.meta.endYear}</p>
-                    <p>Budget: {marker.meta.budget}</p>
-                  </Popup>
-                </Marker>
-              ))}
-            </MarkerClusterGroup>
-          </LayersControl.Overlay>
-          
+          <Invisteeringud/>
+          <Hooldus/>
+          <Laiendamis/>
         </LayersControl>
 
-        <MapLegendControl/>
+        {/* <TooltipCircle/> */}
 
+        <MapLegendControl/>
       </MapContainer>
     </>
   )
